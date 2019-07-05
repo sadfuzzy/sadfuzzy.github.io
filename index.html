@@ -13,7 +13,10 @@
             alert('ServiceWorker registration failed: ', err);
           });
         });
-      }
+      } else {
+        console.log('no serviceWorker in navigator');
+        alert('no serviceWorker in navigator');
+      };
     </script>
   </head>
   <body>
