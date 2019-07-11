@@ -244,7 +244,7 @@
         if ('serviceWorker' in navigator) {
           console.log('Service worker in navigator');
           addNotification('Service worker in navigator');
-          navigator.serviceWorker.register('/service-worker.js').then(initialiseState);
+          navigator.serviceWorker.register('/service-worker.js').then(initialiseState());
           addNotification('Service worker registered');
         } else {
           console.warn('Service workers aren\'t supported in this browser.');
