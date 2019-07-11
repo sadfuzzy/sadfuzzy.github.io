@@ -43,7 +43,7 @@
           return;
         }
 
-        var isPushEnabled = false;
+        window.isPushEnabled = false;
 
         // We need the service worker registration to check for a subscription
         navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
@@ -69,7 +69,7 @@
               // Set your UI to show they have subscribed for
               // push messages
               pushButton.textContent = 'Disable Push Messages';
-              isPushEnabled = true;
+              window.isPushEnabled = true;
             })
             .catch(function(err) {
               console.warn('Error during getSubscription()', err);
@@ -90,7 +90,7 @@
               // The subscription was successful
               console.log('Subscribed, push enabled')
               addNotification('Subscribed, push enabled')
-              isPushEnabled = true;
+              window.isPushEnabled = true;
               pushButton.textContent = 'Disable Push Messages';
               pushButton.disabled = false;
 
@@ -135,7 +135,7 @@
                 // to allow the user to subscribe to push
                 console.log('Not subscribed');
                 addNotification('Not subscribed');
-                isPushEnabled = false;
+                window.isPushEnabled = false;
                 pushButton.disabled = false;
                 pushButton.textContent = 'Enable Push Messages';
                 return;
@@ -152,7 +152,7 @@
                 addNotification('Unsubscribed');
                 pushButton.disabled = false;
                 pushButton.textContent = 'Enable Push Messages';
-                isPushEnabled = false;
+                window.isPushEnabled = false;
               }).catch(function(e) {
                 // We failed to unsubscribe, this can lead to
                 // an unusual state, so may be best to remove
