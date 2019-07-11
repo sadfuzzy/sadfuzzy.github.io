@@ -16,22 +16,34 @@
       // firebase.initializeApp(firebaseConfig);
     </script>
     <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-          navigator.serviceWorker.register('/sw.js').then(function(registration) {
-            // Registration was successful
-            console.log('ServiceWorker registration successful with scope: ', registration.scope);
-            alert('ServiceWorker registration successful with scope: ', registration.scope);
-          }, function(err) {
-            // registration failed :(
-            console.log('ServiceWorker registration failed: ', err);
-            alert('ServiceWorker registration failed: ', err);
-          });
-        });
-      } else {
-        console.log('no serviceWorker in navigator');
-        alert('no serviceWorker in navigator');
-      };
+      // if ('serviceWorker' in navigator) {
+      //   window.addEventListener('load', function() {
+      //     navigator.serviceWorker.register('/sw.js').then(function(registration) {
+      //       // Registration was successful
+      //       console.log('ServiceWorker registration successful with scope: ', registration.scope);
+      //       alert('ServiceWorker registration successful with scope: ', registration.scope);
+      //     }, function(err) {
+      //       // registration failed :(
+      //       console.log('ServiceWorker registration failed: ', err);
+      //       alert('ServiceWorker registration failed: ', err);
+      //     });
+      //   });
+      // } else {
+      //   console.log('no serviceWorker in navigator');
+      //   alert('no serviceWorker in navigator');
+      // };
+    </script>
+    <script type="text/javascript">
+      (function(p,u,s,h){
+          p._pcq=p._pcq||[];
+          p._pcq.push(['_currentTime',Date.now()]);
+          s=u.createElement('script');
+          s.type='text/javascript';
+          s.async=true;
+          s.src='https://cdn.pushcrew.com/js/ed0f4745464879c8263c4b777d33976b.js';
+          h=u.getElementsByTagName('script')[0];
+          h.parentNode.insertBefore(s,h);
+      })(window,document);
     </script>
   </head>
   <body>
