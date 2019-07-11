@@ -2,50 +2,14 @@
   <head>
     <link rel="manifest" href="/manifest.json">
     <script src="/firebase-app.js"></script>
+    <!-- <script src="/Users/denis/code/work/sadfuzzy.github.io/firebase-app.js"></script> -->
     <script>
-      // Your web app's Firebase configuration
-      var firebaseConfig = {
-        apiKey: "AIzaSyCh5FkwP1RpqV3qTUa8nXX1j_7zVPSi4a0",
-        authDomain: "mtint-ea651.firebaseapp.com",
-        databaseURL: "https://mtint-ea651.firebaseio.com",
-        projectId: "mtint-ea651",
-        storageBucket: "",
-        messagingSenderId: "1077143836185",
-        appId: "1:1077143836185:web:2636fb7a52d44378"
-      };
-      // Initialize Firebase
-      firebase.initializeApp(firebaseConfig);
-
-      // if ('serviceWorker' in navigator) {
-      //   window.addEventListener('load', function() {
-      //     navigator.serviceWorker.register('/sw.js').then(function(registration) {
-      //       // Registration was successful
-      //       console.log('ServiceWorker registration successful with scope: ', registration.scope);
-      //       alert('ServiceWorker registration successful with scope: ', registration.scope);
-      //     }, function(err) {
-      //       // registration failed :(
-      //       console.log('ServiceWorker registration failed: ', err);
-      //       alert('ServiceWorker registration failed: ', err);
-      //     });
-      //   });
-      // } else {
-      //   console.log('no serviceWorker in navigator');
-      //   alert('no serviceWorker in navigator');
-      // };
-
-      // (function(p,u,s,h){
-      //     p._pcq=p._pcq||[];
-      //     p._pcq.push(['_currentTime',Date.now()]);
-      //     s=u.createElement('script');
-      //     s.type='text/javascript';
-      //     s.async=true;
-      //     s.src='https://cdn.pushcrew.com/js/ed0f4745464879c8263c4b777d33976b.js';
-      //     h=u.getElementsByTagName('script')[0];
-      //     h.parentNode.insertBefore(s,h);
-      // })(window,document);
-
-      var isPushEnabled = false;
-
+      function addNotification(text) {
+        var newLi = document.createElement('li');
+        newLi.className = "";
+        newLi.innerHTML = text + ' (' + (new Date()).toUTCString() + ')';
+        document.getElementById('notifications').appendChild(newLi);
+      }
 
       function sendSubscriptionToServer(subscription) {
         console.log('Sent to server, subscription:', subscription);
@@ -205,25 +169,55 @@
         });
       }
 
-      self.addEventListener('push', function(event) {
-        console.log('Received a push message', event);
-        addNotification('Received a push message ' + event);
+      function mainMt() {
+        addNotification('Firebase initialization start');
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+          apiKey: "AIzaSyCh5FkwP1RpqV3qTUa8nXX1j_7zVPSi4a0",
+          authDomain: "mtint-ea651.firebaseapp.com",
+          databaseURL: "https://mtint-ea651.firebaseio.com",
+          projectId: "mtint-ea651",
+          storageBucket: "",
+          messagingSenderId: "1077143836185",
+          appId: "1:1077143836185:web:2636fb7a52d44378"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        addNotification('Firebase initialized');
 
-        var title = 'Yay a message.';
-        var body = 'We have received a push message.';
-        var icon = '/images/icon-192x192.png';
-        var tag = 'simple-push-demo-notification-tag';
+        // (function(p,u,s,h){
+        //     p._pcq=p._pcq||[];
+        //     p._pcq.push(['_currentTime',Date.now()]);
+        //     s=u.createElement('script');
+        //     s.type='text/javascript';
+        //     s.async=true;
+        //     s.src='https://cdn.pushcrew.com/js/ed0f4745464879c8263c4b777d33976b.js';
+        //     h=u.getElementsByTagName('script')[0];
+        //     h.parentNode.insertBefore(s,h);
+        // })(window,document);
 
-        event.waitUntil(
-          self.registration.showNotification(title, {
-            body: body,
-            icon: icon,
-            tag: tag
-          })
-        );
-      });
+        var isPushEnabled = false;
 
-      window.addEventListener('load', function() {
+        addNotification('Event listener push enabled');
+        self.addEventListener('push', function(event) {
+          console.log('Received a push message', event);
+          addNotification('Received a push message ' + event);
+
+          var title = 'Yay a message.';
+          var body = 'We have received a push message.';
+          var icon = '/images/icon-192x192.png';
+          var tag = 'simple-push-demo-notification-tag';
+
+          event.waitUntil(
+            self.registration.showNotification(title, {
+              body: body,
+              icon: icon,
+              tag: tag
+            })
+          );
+        });
+
+        addNotification('Setting button listeners');
         var pushButton = document.querySelector('.js-push-button');
         pushButton.addEventListener('click', function() {
           if (isPushEnabled) {
@@ -233,23 +227,21 @@
           }
         });
 
+        addNotification('Check service workers');
         // Check that service workers are supported, if so, progressively
         // enhance and add push messaging support, otherwise continue without it.
         if ('serviceWorker' in navigator) {
+          console.log('Service worker in navigator');
+          addNotification('Service worker in navigator');
           navigator.serviceWorker.register('/service-worker.js')
           .then(initialiseState);
         } else {
           console.warn('Service workers aren\'t supported in this browser.');
           addNotification('Service workers aren\'t supported in this browser.');
         }
-      });
-
-      function addNotification(text) {
-        var newLi = document.createElement('li');
-        newLi.className = "";
-        newLi.innerHTML = text + ' (' + (new Date()).toUTCString() + ')';
-        document.getElementById('notifications').appendChild(newLi);
       }
+
+      window.addEventListener('DOMContentLoaded', function() {  mainMt() });
     </script>
   </head>
   <body>
