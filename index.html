@@ -243,7 +243,7 @@
         // enhance and add push messaging support, otherwise continue without it.
         if ('serviceWorker' in navigator) {
           console.log('Service worker in navigator');
-          addNotification('Service worker in navigator');
+          addNotification('Service worker registration...');
           navigator.serviceWorker.register('/service-worker.js').then(initialiseState());
           addNotification('Service worker registered');
         } else {
