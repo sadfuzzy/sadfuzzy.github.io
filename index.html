@@ -183,9 +183,14 @@
           messagingSenderId: "1077143836185",
           appId: "1:1077143836185:web:2636fb7a52d44378"
         };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        addNotification('Firebase initialized');
+        try {
+          // Initialize Firebase
+          firebase.initializeApp(firebaseConfig);
+          addNotification('Firebase initialized');
+        } catch (err) {
+          addNotification('Firebase initialize error ', err);
+          console.log('Firebase initialize error ', err);
+        }
 
         // (function(p,u,s,h){
         //     p._pcq=p._pcq||[];
