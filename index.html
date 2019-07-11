@@ -1,8 +1,20 @@
 <html lang="en">
   <head>
     <link rel="manifest" href="/manifest.json">
-    <script src="/firebase-app.js"></script>
+    <!-- <script src="/firebase-app.js"></script> -->
     <!-- <script src="/Users/denis/code/work/sadfuzzy.github.io/firebase-app.js"></script> -->
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+    <script>
+      var OneSignal = window.OneSignal || [];
+      OneSignal.push(function() {
+        OneSignal.init({
+          appId: "786b031d-986e-4d8f-8356-f937f49d3637",
+          notifyButton: {
+            enable: true,
+          },
+        });
+      });
+    </script>
     <script>
       function addNotification(text) {
         var newLi = document.createElement('li');
@@ -11,248 +23,248 @@
         document.getElementById('notifications').appendChild(newLi);
       }
 
-      function sendSubscriptionToServer(subscription) {
-        console.log('Sent to server, subscription:', subscription);
-        addNotification('Sent to server, subscription:' + subscription);
+    //   function sendSubscriptionToServer(subscription) {
+    //     console.log('Sent to server, subscription:', subscription);
+    //     addNotification('Sent to server, subscription:' + subscription);
 
-        return;
-      }
+    //     return;
+    //   }
 
-      // Once the service worker is registered set the initial state
-      function initialiseState() {
-        // Are Notifications supported in the service worker?
-        if (!('showNotification' in ServiceWorkerRegistration.prototype)) {
-          console.warn('Notifications aren\'t supported.');
-          addNotification('Notifications aren\'t supported.');
-          return;
-        } else {
-          addNotification('Notifications supported.');
-        }
+    //   // Once the service worker is registered set the initial state
+    //   function initialiseState() {
+    //     // Are Notifications supported in the service worker?
+    //     if (!('showNotification' in ServiceWorkerRegistration.prototype)) {
+    //       console.warn('Notifications aren\'t supported.');
+    //       addNotification('Notifications aren\'t supported.');
+    //       return;
+    //     } else {
+    //       addNotification('Notifications supported.');
+    //     }
 
-        // Check the current Notification permission.
-        // If its denied, it's a permanent block until the
-        // user changes the permission
-        if (Notification.permission === 'denied') {
-          console.warn('The user has blocked notifications.');
-          addNotification('The user has blocked notifications.');
-          return;
-        }
+    //     // Check the current Notification permission.
+    //     // If its denied, it's a permanent block until the
+    //     // user changes the permission
+    //     if (Notification.permission === 'denied') {
+    //       console.warn('The user has blocked notifications.');
+    //       addNotification('The user has blocked notifications.');
+    //       return;
+    //     }
 
-        // Check if push messaging is supported
-        if (!('PushManager' in window)) {
-          console.warn('Push messaging isn\'t supported.');
-          addNotification('Push messaging isn\'t supported.');
-          return;
-        }
+    //     // Check if push messaging is supported
+    //     if (!('PushManager' in window)) {
+    //       console.warn('Push messaging isn\'t supported.');
+    //       addNotification('Push messaging isn\'t supported.');
+    //       return;
+    //     }
 
-        window.isPushEnabled = false;
+    //     window.isPushEnabled = false;
 
-        addNotification('Check subscription');
-        // We need the service worker registration to check for a subscription
-        navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
-          // Do we already have a push message subscription?
-          addNotification('Check subscribed?');
-          serviceWorkerRegistration.pushManager.getSubscription()
-            .then(function(subscription) {
-              // Enable any UI which subscribes / unsubscribes from
-              // push messages.
-              var pushButton = document.querySelector('.js-push-button');
-              pushButton.disabled = false;
+    //     addNotification('Check subscription');
+    //     // We need the service worker registration to check for a subscription
+    //     navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
+    //       // Do we already have a push message subscription?
+    //       addNotification('Check subscribed?');
+    //       serviceWorkerRegistration.pushManager.getSubscription()
+    //         .then(function(subscription) {
+    //           // Enable any UI which subscribes / unsubscribes from
+    //           // push messages.
+    //           var pushButton = document.querySelector('.js-push-button');
+    //           pushButton.disabled = false;
 
-              if (!subscription) {
-                console.log('Push disabled');
-                addNotification('Push disabled');
-                // We aren't subscribed to push, so set UI
-                // to allow the user to enable push
-                return;
-              }
+    //           if (!subscription) {
+    //             console.log('Push disabled');
+    //             addNotification('Push disabled');
+    //             // We aren't subscribed to push, so set UI
+    //             // to allow the user to enable push
+    //             return;
+    //           }
 
-              // Keep your server in sync with the latest subscriptionId
-              addNotification('Sending subscription to server');
-              sendSubscriptionToServer(subscription);
+    //           // Keep your server in sync with the latest subscriptionId
+    //           addNotification('Sending subscription to server');
+    //           sendSubscriptionToServer(subscription);
 
-              // Set your UI to show they have subscribed for
-              // push messages
-              pushButton.textContent = 'Disable Push Messages';
-              window.isPushEnabled = true;
-            })
-            .catch(function(err) {
-              addNotification('Error during getSubscription()');
-              addNotification(err);
-              console.warn('Error during getSubscription()', err);
-            });
-        });
-      }
+    //           // Set your UI to show they have subscribed for
+    //           // push messages
+    //           pushButton.textContent = 'Disable Push Messages';
+    //           window.isPushEnabled = true;
+    //         })
+    //         .catch(function(err) {
+    //           addNotification('Error during getSubscription()');
+    //           addNotification(err);
+    //           console.warn('Error during getSubscription()', err);
+    //         });
+    //     });
+    //   }
 
-      function subscribe() {
-        // Disable the button so it can't be changed while
-        // we process the permission request
-        var pushButton = document.querySelector('.js-push-button');
-        pushButton.disabled = true;
+    //   function subscribe() {
+    //     // Disable the button so it can't be changed while
+    //     // we process the permission request
+    //     var pushButton = document.querySelector('.js-push-button');
+    //     pushButton.disabled = true;
 
-        navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
-          serviceWorkerRegistration.pushManager.subscribe({userVisibleOnly: true})
-            .then(function(subscription) {
-              // The subscription was successful
-              console.log('Subscribed, push enabled')
-              addNotification('Subscribed, push enabled')
-              window.isPushEnabled = true;
-              pushButton.textContent = 'Disable Push Messages';
-              pushButton.disabled = false;
+    //     navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
+    //       serviceWorkerRegistration.pushManager.subscribe({userVisibleOnly: true})
+    //         .then(function(subscription) {
+    //           // The subscription was successful
+    //           console.log('Subscribed, push enabled')
+    //           addNotification('Subscribed, push enabled')
+    //           window.isPushEnabled = true;
+    //           pushButton.textContent = 'Disable Push Messages';
+    //           pushButton.disabled = false;
 
-              // TODO: Send the subscription.endpoint to your server
-              // and save it to send a push message at a later date
-              return sendSubscriptionToServer(subscription);
-            })
-            .catch(function(e) {
-              if (Notification.permission === 'denied') {
-                // The user denied the notification permission which
-                // means we failed to subscribe and the user will need
-                // to manually change the notification permission to
-                // subscribe to push messages
-                console.warn('Permission for Notifications was denied');
-                addNotification('Permission for Notifications was denied');
-                pushButton.disabled = true;
-              } else {
-                // A problem occurred with the subscription; common reasons
-                // include network errors, and lacking gcm_sender_id and/or
-                // gcm_user_visible_only in the manifest.
-                console.error('Unable to subscribe to push.', e);
-                addNotification('Unable to subscribe to push. ' + e);
-                pushButton.disabled = false;
-                pushButton.textContent = 'Enable Push Messages';
-              }
-            });
-        });
-      }
+    //           // TODO: Send the subscription.endpoint to your server
+    //           // and save it to send a push message at a later date
+    //           return sendSubscriptionToServer(subscription);
+    //         })
+    //         .catch(function(e) {
+    //           if (Notification.permission === 'denied') {
+    //             // The user denied the notification permission which
+    //             // means we failed to subscribe and the user will need
+    //             // to manually change the notification permission to
+    //             // subscribe to push messages
+    //             console.warn('Permission for Notifications was denied');
+    //             addNotification('Permission for Notifications was denied');
+    //             pushButton.disabled = true;
+    //           } else {
+    //             // A problem occurred with the subscription; common reasons
+    //             // include network errors, and lacking gcm_sender_id and/or
+    //             // gcm_user_visible_only in the manifest.
+    //             console.error('Unable to subscribe to push.', e);
+    //             addNotification('Unable to subscribe to push. ' + e);
+    //             pushButton.disabled = false;
+    //             pushButton.textContent = 'Enable Push Messages';
+    //           }
+    //         });
+    //     });
+    //   }
 
-      function unsubscribe() {
-        var pushButton = document.querySelector('.js-push-button');
-        pushButton.disabled = true;
+    //   function unsubscribe() {
+    //     var pushButton = document.querySelector('.js-push-button');
+    //     pushButton.disabled = true;
 
-        navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
-          // To unsubscribe from push messaging, you need get the
-          // subscription object, which you can call unsubscribe() on.
-          serviceWorkerRegistration.pushManager.getSubscription().then(
-            function(pushSubscription) {
-              // Check we have a subscription to unsubscribe
-              if (!pushSubscription) {
-                // No subscription object, so set the state
-                // to allow the user to subscribe to push
-                console.log('Not subscribed');
-                addNotification('Not subscribed');
-                window.isPushEnabled = false;
-                pushButton.disabled = false;
-                pushButton.textContent = 'Enable Push Messages';
-                return;
-              }
+    //     navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
+    //       // To unsubscribe from push messaging, you need get the
+    //       // subscription object, which you can call unsubscribe() on.
+    //       serviceWorkerRegistration.pushManager.getSubscription().then(
+    //         function(pushSubscription) {
+    //           // Check we have a subscription to unsubscribe
+    //           if (!pushSubscription) {
+    //             // No subscription object, so set the state
+    //             // to allow the user to subscribe to push
+    //             console.log('Not subscribed');
+    //             addNotification('Not subscribed');
+    //             window.isPushEnabled = false;
+    //             pushButton.disabled = false;
+    //             pushButton.textContent = 'Enable Push Messages';
+    //             return;
+    //           }
 
-              var subscriptionId = pushSubscription.subscriptionId;
-              // TODO: Make a request to your server to remove
-              // the subscriptionId from your data store so you
-              // don't attempt to send them push messages anymore
+    //           var subscriptionId = pushSubscription.subscriptionId;
+    //           // TODO: Make a request to your server to remove
+    //           // the subscriptionId from your data store so you
+    //           // don't attempt to send them push messages anymore
 
-              // We have a subscription, so call unsubscribe on it
-              pushSubscription.unsubscribe().then(function(successful) {
-                console.log('Unsubscribed');
-                addNotification('Unsubscribed');
-                pushButton.disabled = false;
-                pushButton.textContent = 'Enable Push Messages';
-                window.isPushEnabled = false;
-              }).catch(function(e) {
-                // We failed to unsubscribe, this can lead to
-                // an unusual state, so may be best to remove
-                // the users data from your data store and
-                // inform the user that you have done so
+    //           // We have a subscription, so call unsubscribe on it
+    //           pushSubscription.unsubscribe().then(function(successful) {
+    //             console.log('Unsubscribed');
+    //             addNotification('Unsubscribed');
+    //             pushButton.disabled = false;
+    //             pushButton.textContent = 'Enable Push Messages';
+    //             window.isPushEnabled = false;
+    //           }).catch(function(e) {
+    //             // We failed to unsubscribe, this can lead to
+    //             // an unusual state, so may be best to remove
+    //             // the users data from your data store and
+    //             // inform the user that you have done so
 
-                console.log('Unsubscription error: ', e);
-                addNotification('Unsubscription error: ' + e);
-                pushButton.disabled = false;
-                pushButton.textContent = 'Enable Push Messages';
-              });
-            }).catch(function(e) {
-              console.error('Error thrown while unsubscribing from push messaging.', e);
-              addNotification('Error thrown while unsubscribing from push messaging.', e);
-            });
-        });
-      }
+    //             console.log('Unsubscription error: ', e);
+    //             addNotification('Unsubscription error: ' + e);
+    //             pushButton.disabled = false;
+    //             pushButton.textContent = 'Enable Push Messages';
+    //           });
+    //         }).catch(function(e) {
+    //           console.error('Error thrown while unsubscribing from push messaging.', e);
+    //           addNotification('Error thrown while unsubscribing from push messaging.', e);
+    //         });
+    //     });
+    //   }
 
-      function mainMt() {
-        addNotification('Firebase initialization start');
-        // Your web app's Firebase configuration
-        var firebaseConfig = {
-          apiKey: "AIzaSyCh5FkwP1RpqV3qTUa8nXX1j_7zVPSi4a0",
-          authDomain: "mtint-ea651.firebaseapp.com",
-          databaseURL: "https://mtint-ea651.firebaseio.com",
-          projectId: "mtint-ea651",
-          storageBucket: "",
-          messagingSenderId: "1077143836185",
-          appId: "1:1077143836185:web:2636fb7a52d44378"
-        };
-        try {
-          // Initialize Firebase
-          firebase.initializeApp(firebaseConfig);
-          addNotification('Firebase initialized');
-        } catch (err) {
-          addNotification('Firebase initialize error ', err);
-          console.log('Firebase initialize error ', err);
-        }
+    //   function mainMt() {
+    //     addNotification('Firebase initialization start');
+    //     // Your web app's Firebase configuration
+    //     var firebaseConfig = {
+    //       apiKey: "AIzaSyCh5FkwP1RpqV3qTUa8nXX1j_7zVPSi4a0",
+    //       authDomain: "mtint-ea651.firebaseapp.com",
+    //       databaseURL: "https://mtint-ea651.firebaseio.com",
+    //       projectId: "mtint-ea651",
+    //       storageBucket: "",
+    //       messagingSenderId: "1077143836185",
+    //       appId: "1:1077143836185:web:2636fb7a52d44378"
+    //     };
+    //     try {
+    //       // Initialize Firebase
+    //       firebase.initializeApp(firebaseConfig);
+    //       addNotification('Firebase initialized');
+    //     } catch (err) {
+    //       addNotification('Firebase initialize error ', err);
+    //       console.log('Firebase initialize error ', err);
+    //     }
 
-        // (function(p,u,s,h){
-        //     p._pcq=p._pcq||[];
-        //     p._pcq.push(['_currentTime',Date.now()]);
-        //     s=u.createElement('script');
-        //     s.type='text/javascript';
-        //     s.async=true;
-        //     s.src='https://cdn.pushcrew.com/js/ed0f4745464879c8263c4b777d33976b.js';
-        //     h=u.getElementsByTagName('script')[0];
-        //     h.parentNode.insertBefore(s,h);
-        // })(window,document);
+    //     // (function(p,u,s,h){
+    //     //     p._pcq=p._pcq||[];
+    //     //     p._pcq.push(['_currentTime',Date.now()]);
+    //     //     s=u.createElement('script');
+    //     //     s.type='text/javascript';
+    //     //     s.async=true;
+    //     //     s.src='https://cdn.pushcrew.com/js/ed0f4745464879c8263c4b777d33976b.js';
+    //     //     h=u.getElementsByTagName('script')[0];
+    //     //     h.parentNode.insertBefore(s,h);
+    //     // })(window,document);
 
-        addNotification('Event listener push enabled');
-        self.addEventListener('push', function(event) {
-          console.log('Received a push message', event);
-          addNotification('Received a push message ' + event);
+    //     addNotification('Event listener push enabled');
+    //     self.addEventListener('push', function(event) {
+    //       console.log('Received a push message', event);
+    //       addNotification('Received a push message ' + event);
 
-          var title = 'Yay a message.';
-          var body = 'We have received a push message.';
-          var icon = '/images/icon-192x192.png';
-          var tag = 'simple-push-demo-notification-tag';
+    //       var title = 'Yay a message.';
+    //       var body = 'We have received a push message.';
+    //       var icon = '/images/icon-192x192.png';
+    //       var tag = 'simple-push-demo-notification-tag';
 
-          event.waitUntil(
-            self.registration.showNotification(title, {
-              body: body,
-              icon: icon,
-              tag: tag
-            })
-          );
-        });
+    //       event.waitUntil(
+    //         self.registration.showNotification(title, {
+    //           body: body,
+    //           icon: icon,
+    //           tag: tag
+    //         })
+    //       );
+    //     });
 
-        addNotification('Setting button listeners');
-        var pushButton = document.querySelector('.js-push-button');
-        pushButton.addEventListener('click', function() {
-          if (isPushEnabled) {
-            unsubscribe();
-          } else {
-            subscribe({userVisibleOnly: true});
-          }
-        });
+    //     addNotification('Setting button listeners');
+    //     var pushButton = document.querySelector('.js-push-button');
+    //     pushButton.addEventListener('click', function() {
+    //       if (isPushEnabled) {
+    //         unsubscribe();
+    //       } else {
+    //         subscribe({userVisibleOnly: true});
+    //       }
+    //     });
 
-        addNotification('Check service workers');
-        // Check that service workers are supported, if so, progressively
-        // enhance and add push messaging support, otherwise continue without it.
-        if ('serviceWorker' in navigator) {
-          console.log('Service worker in navigator');
-          addNotification('Service worker registration...');
-          navigator.serviceWorker.register('/service-worker.js').then(initialiseState());
-          addNotification('Service worker registered');
-        } else {
-          console.warn('Service workers aren\'t supported in this browser.');
-          addNotification('Service workers aren\'t supported in this browser.');
-        }
-      }
+    //     addNotification('Check service workers');
+    //     // Check that service workers are supported, if so, progressively
+    //     // enhance and add push messaging support, otherwise continue without it.
+    //     if ('serviceWorker' in navigator) {
+    //       console.log('Service worker in navigator');
+    //       addNotification('Service worker registration...');
+    //       navigator.serviceWorker.register('/service-worker.js').then(initialiseState());
+    //       addNotification('Service worker registered');
+    //     } else {
+    //       console.warn('Service workers aren\'t supported in this browser.');
+    //       addNotification('Service workers aren\'t supported in this browser.');
+    //     }
+    //   }
 
-      window.addEventListener('DOMContentLoaded', function() {  mainMt() });
+    //   window.addEventListener('DOMContentLoaded', function() {  mainMt() });
     </script>
   </head>
   <body style="font-size: 1em;">
