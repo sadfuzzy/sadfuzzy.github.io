@@ -244,8 +244,7 @@
         if ('serviceWorker' in navigator) {
           console.log('Service worker in navigator');
           addNotification('Service worker in navigator');
-          navigator.serviceWorker.register('/service-worker.js')
-          .then(initialiseState);
+          navigator.serviceWorker.register('/service-worker.js').then(initialiseState);
           addNotification('Service worker registered');
         } else {
           console.warn('Service workers aren\'t supported in this browser.');
@@ -256,7 +255,7 @@
       window.addEventListener('DOMContentLoaded', function() {  mainMt() });
     </script>
   </head>
-  <body>
+  <body style="font-size: 1em;">
     <div style="width: 50%; margin-left: 25%; margin-right: 25%;">
       <h1>Service Workers</h1>
       <p>To enable notifications, push the button</p>
@@ -268,7 +267,7 @@
       </button>
       <p>
         <h5>Notifications:</h5>
-        <ul id='notifications'></ul>
+        <ul id='notifications' style="font-size: .8em;"></ul>
       </p>
     </div>
   </body>
