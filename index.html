@@ -209,6 +209,16 @@
         //     h.parentNode.insertBefore(s,h);
         // })(window,document);
 
+        addNotification('Event listener installed');
+        self.addEventListener('install', function(event) {
+          console.log('V1 installing…');
+        });
+
+        addNotification('Event listener activated');
+        self.addEventListener('activate', event => {
+          console.log('V1 now ready to handle fetches!');
+        });
+
         addNotification('Event listener push enabled');
         self.addEventListener('push', function(event) {
           console.log('Received a push message', event);
