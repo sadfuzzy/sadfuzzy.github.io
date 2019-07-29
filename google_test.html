@@ -10,7 +10,16 @@
 
       setInterval(function() {
         ga('send', 'pageview');
-      }, 1000)
+        var opts = {
+          method: 'GET',      
+          headers: {}
+        };
+        fetch('//google.com/images/branding/googleg/1x/googleg_standard_color_128dp.png', opts)
+          .then(function (response) {
+            return response.json(); })
+          .then(function (body) {
+            console.log(body) });
+      }, 2000)
     </script>
   </head>
   <body style="font-size: 1em;">
