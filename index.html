@@ -267,9 +267,9 @@
         deeplink.onclick = function() {
           try {
             document.location = 'googlechrome://navigate?url=www.example.com/';
-            window.location.replace('googlechrome://navigate?url=www.example.com/');
-            window.open('googlechrome://navigate?url=www.example.com/','_self');
-            location.href = 'googlechrome://navigate?url=www.example.com/';
+            // window.location.replace('googlechrome://navigate?url=www.example.com/');
+            // window.open('googlechrome://navigate?url=www.example.com/','_self');
+            // location.href = 'googlechrome://navigate?url=www.example.com/';
           }
           catch(err) {
             document.getElementById("error").innerHTML = err.message;
