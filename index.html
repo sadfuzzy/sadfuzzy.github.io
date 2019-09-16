@@ -265,6 +265,7 @@
 
         var deeplink = document.getElementById('deeplink');
         deeplink.onclick = function() {
+          addNotification('Step before');
           try {
             // document.location = 'googlechrome://navigate?url=www.example.com/';
             addNotification('Going to redirect');
