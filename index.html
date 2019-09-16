@@ -266,15 +266,14 @@
         var deeplink = document.getElementById('deeplink');
         deeplink.onclick = function() {
           try {
-            addNotification('Step before');
-            // document.location = 'googlechrome://navigate?url=www.example.com/';
+           // document.location = 'googlechrome://navigate?url=www.example.com/';
             addNotification('Going to redirect');
             window.location.replace('googlechrome://navigate?url=www.example.com/');
             // window.open('googlechrome://navigate?url=www.example.com/','_self');
             // location.href = 'googlechrome://navigate?url=www.example.com/';
           }
           catch(err) {
-            addNotification('... ', err.message);
+            addNotification('... error: ', err.message);
             document.getElementById("error").innerHTML = err.message;
           }
           finally {
