@@ -262,6 +262,11 @@
           console.warn('Service workers aren\'t supported in this browser.');
           addNotification('Service workers aren\'t supported in this browser.');
         }
+
+        var deeplink = document.getElementById('deeplink');
+        deeplink.onclick = function() {
+          document.location = 'googlechrome://navigate?url=www.example.com/'
+        };
       }
 
       function showNotification() {
@@ -306,6 +311,15 @@
       <button onclick="document.location = 'googlechrome://navigate?url=www.example.com/';">
         Open link in Chrome
       </button>
+      <a href="googlechrome://navigate?url=www.example.com/">
+        Open link in Chrome (href, googlechrome)
+      </a>
+      <a href="chrome://navigate?url=www.example.com/">
+        Open link in Chrome (href, chrome)
+      </a>
+      <a href="#" id='deeplink'>
+        Open link in Chrome (href, #deeplink)
+      </a>
       <p>
         <h5>Notifications:</h5>
         <ul id='notifications' style="font-size: .8em;"></ul>
