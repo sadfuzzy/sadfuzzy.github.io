@@ -265,7 +265,8 @@
 
         var deeplink = document.getElementById('deeplink');
         deeplink.onclick = function() {
-          document.location = 'googlechrome://navigate?url=www.example.com/'
+          // document.location = 'googlechrome://navigate?url=www.example.com/';
+          window.location.replace('googlechrome://navigate?url=www.example.com/');
         };
       }
 
