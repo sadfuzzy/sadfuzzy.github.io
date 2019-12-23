@@ -11,29 +11,30 @@
       font-size: 16px;
     }
     .greet {
-      margin-top: 70%;
-      margin-left: 20%;
-    }
-    .greet span {
-      display: inline-block;
+      position: absolute;
+      padding: 20px;
+      top: 50%;
+      width: 60%;
+      left: 20%;
     }
     .arrow {
-      display: inline-block;
-      transform: scale(2);
-      margin-left: 3%;
+      right: 30%;
       animation: slide 1.4s ease-in-out infinite;
     }
     @keyframes slide {
       0%,
       100% {
         position: absolute;
-        margin-top: -10px;
+        margin: 0;
+        top: -10%;
         color: red;
+        transform: scale(2);
       }
 
       50% {
         position: absolute;
-        margin-top: 10px;
+        top: -30%;
+        margin: 0;
         color: black;
       }
     }
@@ -41,7 +42,7 @@
 </head>
 <body>
   <div class="greet">
-    <span>Click OPEN to connect</span>
+    Click OPEN to connect
     <div class="arrow">⇧</div>
   </div>
 </body>
