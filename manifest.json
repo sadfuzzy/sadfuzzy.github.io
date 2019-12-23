@@ -6,7 +6,9 @@
         "sizes": "192x192",
         "type": "image/png"
       }],
-  "start_url": "/index.html?homescreen=1",
+  "start_url": "./?homescreen=1",
   "display": "standalone",
-  "gcm_sender_id": "1077143836185"
+  "gcm_sender_id": "1077143836185",
+  "theme_color": "#2e3aa1",
+  "background_color": "#ffffff"
 }
