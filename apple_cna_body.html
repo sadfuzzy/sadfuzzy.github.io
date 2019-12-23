@@ -1,6 +1,48 @@
-<HTML>
-<HEAD>
-  <META http-equiv="Refresh" content="0; url='www.ru'">
-</HEAD>
-<BODY></BODY>
-</HTML>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, height=device-height, user-scalable=0, initial-scale=1, maximum-scale=1, minimum-scale=1">
+  <!-- <meta http-equiv="Refresh" content="30"> -->
+  <!-- <meta http-equiv="Refresh" content="0; url='%URL%'"> -->
+  <style type="text/css">
+    html, body {
+      height: 100%;
+      font-family: Verdana, Tahoma, sans-serif;
+      font-size: 16px;
+    }
+    .greet {
+      margin-top: 70%;
+      margin-left: 20%;
+    }
+    .greet span {
+      display: inline-block;
+    }
+    .arrow {
+      display: inline-block;
+      transform: scale(2);
+      margin-left: 3%;
+      animation: slide 1.4s ease-in-out infinite;
+    }
+    @keyframes slide {
+      0%,
+      100% {
+        position: absolute;
+        margin-top: -10px;
+        color: red;
+      }
+
+      50% {
+        position: absolute;
+        margin-top: 10px;
+        color: black;
+      }
+    }
+</style>
+</head>
+<body>
+  <div class="greet">
+    <span>Click OPEN to connect</span>
+    <div class="arrow">⇧</div>
+  </div>
+</body>
+</html>
