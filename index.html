@@ -1,349 +1,122 @@
+<!doctype html>
 <html lang="en">
-  <head>
-    <link rel="manifest" href="/manifest.json">
-    <script src="/firebase-app.js"></script>
-    <!-- <script src="/Users/denis/code/work/sadfuzzy.github.io/firebase-app.js"></script> -->
-    <script>
-      function addNotification(text) {
-        var newLi = document.createElement('li'),
-            time = new Date();
-        newLi.className = "";
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Denis Savitskiy</title>
+  <meta name="description" content="Denis Savitskiy — Senior Ruby on Rails and Go developer.">
+  <style>
+    :root { --bg: #fff; --fg: #1d1d1f; --muted: #6e6e73; --line: #e5e5ea; --accent: #c0392b; --tag: #f2f2f5; }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #141416; --fg: #ececf0; --muted: #9a9aa2; --line: #2c2c31; --accent: #ff6b5b; --tag: #222227; }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--fg); font: 17px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; }
+    main { max-width: 760px; margin: 0 auto; padding: 64px 20px; }
+    h1 { font-size: 2.4rem; margin: 0; line-height: 1.2; }
+    h2 { font-size: 1.1rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 56px 0 16px; }
+    h3 { font-size: 1.05rem; margin: 0 0 4px; }
+    p { margin: 0 0 12px; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .lead { color: var(--muted); font-size: 1.2rem; margin-top: 8px; }
+    .links a { margin-right: 16px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 8px 0 0; list-style: none; }
+    .tags li { background: var(--tag); border-radius: 6px; padding: 2px 10px; font-size: .85rem; }
+    .skills { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; }
+    .project { border-top: 1px solid var(--line); padding: 20px 0; }
+    .project p { color: var(--muted); margin: 0; }
+    footer { margin-top: 64px; color: var(--muted); font-size: .9rem; }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Denis Savitskiy</h1>
+    <p class="lead">Senior Ruby on Rails &amp; Go developer · Yerevan, Armenia</p>
+    <p class="links">
+      <a href="https://github.com/sadfuzzy">GitHub</a>
+      <a href="https://www.linkedin.com/in/sadfuzzy">LinkedIn</a>
+      <a href="mailto:Denis@deltasoft.solutions">Email</a>
+    </p>
+  </header>
 
-        newLi.innerHTML = text + ' (' + time.getHours( )+ ":" +  time.getMinutes() + ":" +  time.getSeconds() + '.' + time.getMilliseconds() + ')';
-        document.getElementById('notifications').appendChild(newLi);
-      }
+  <section>
+    <h2>About</h2>
+    <p>I'm a backend engineer who builds and runs web services end to end — from data model and API design to deployment and monitoring.
+      Most of my work is in Ruby on Rails and Go, with Python where it fits.</p>
+    <p>I care about simple, boring, maintainable code and about systems that keep working at 3am.</p>
+  </section>
 
-      function sendSubscriptionToServer(subscription) {
-        console.log('Sent to server, subscription:', subscription);
-        addNotification('Sent to server, subscription:' + subscription);
-
-        return;
-      }
-
-      // Once the service worker is registered set the initial state
-      function initialiseState() {
-        // Are Notifications supported in the service worker?
-        if (!('showNotification' in ServiceWorkerRegistration.prototype)) {
-          console.warn('Notifications aren\'t supported.');
-          addNotification('Notifications aren\'t supported.');
-          return;
-        } else {
-          addNotification('Notifications supported.');
-        }
-
-        // Check the current Notification permission.
-        // If its denied, it's a permanent block until the
-        // user changes the permission
-        if (Notification.permission === 'denied') {
-          console.warn('The user has blocked notifications.');
-          addNotification('The user has blocked notifications.');
-          return;
-        }
-
-        // Check if push messaging is supported
-        if (!('PushManager' in window)) {
-          console.warn('Push messaging isn\'t supported.');
-          addNotification('Push messaging isn\'t supported.');
-          return;
-        }
-
-        window.isPushEnabled = false;
-
-        addNotification('Check subscription');
-        // We need the service worker registration to check for a subscription
-        navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
-          // Do we already have a push message subscription?
-          addNotification('Check subscribed?');
-          serviceWorkerRegistration.pushManager.getSubscription()
-            .then(function(subscription) {
-              // Enable any UI which subscribes / unsubscribes from
-              // push messages.
-              var pushButton = document.querySelector('.js-push-button');
-              pushButton.disabled = false;
-
-              if (!subscription) {
-                console.log('Push disabled');
-                addNotification('Push disabled');
-                // We aren't subscribed to push, so set UI
-                // to allow the user to enable push
-                return;
-              }
-
-              // Keep your server in sync with the latest subscriptionId
-              addNotification('Sending subscription to server');
-              sendSubscriptionToServer(subscription);
-
-              // Set your UI to show they have subscribed for
-              // push messages
-              pushButton.textContent = 'Disable Push Messages';
-              window.isPushEnabled = true;
-            })
-            .catch(function(err) {
-              addNotification('Error during getSubscription()');
-              addNotification(err);
-              console.warn('Error during getSubscription()', err);
-            });
-        });
-      }
-
-      function subscribe() {
-        // Disable the button so it can't be changed while
-        // we process the permission request
-        var pushButton = document.querySelector('.js-push-button');
-        pushButton.disabled = true;
-
-        navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
-          serviceWorkerRegistration.pushManager.subscribe({userVisibleOnly: true})
-            .then(function(subscription) {
-              // The subscription was successful
-              console.log('Subscribed, push enabled')
-              addNotification('Subscribed, push enabled')
-              window.isPushEnabled = true;
-              pushButton.textContent = 'Disable Push Messages';
-              pushButton.disabled = false;
-
-              // TODO: Send the subscription.endpoint to your server
-              // and save it to send a push message at a later date
-              return sendSubscriptionToServer(subscription);
-            })
-            .catch(function(e) {
-              if (Notification.permission === 'denied') {
-                // The user denied the notification permission which
-                // means we failed to subscribe and the user will need
-                // to manually change the notification permission to
-                // subscribe to push messages
-                console.warn('Permission for Notifications was denied');
-                addNotification('Permission for Notifications was denied');
-                pushButton.disabled = true;
-              } else {
-                // A problem occurred with the subscription; common reasons
-                // include network errors, and lacking gcm_sender_id and/or
-                // gcm_user_visible_only in the manifest.
-                console.error('Unable to subscribe to push.', e);
-                addNotification('Unable to subscribe to push. ' + e);
-                pushButton.disabled = false;
-                pushButton.textContent = 'Enable Push Messages';
-              }
-            });
-        });
-      }
-
-      function unsubscribe() {
-        var pushButton = document.querySelector('.js-push-button');
-        pushButton.disabled = true;
-
-        navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
-          // To unsubscribe from push messaging, you need get the
-          // subscription object, which you can call unsubscribe() on.
-          serviceWorkerRegistration.pushManager.getSubscription().then(
-            function(pushSubscription) {
-              // Check we have a subscription to unsubscribe
-              if (!pushSubscription) {
-                // No subscription object, so set the state
-                // to allow the user to subscribe to push
-                console.log('Not subscribed');
-                addNotification('Not subscribed');
-                window.isPushEnabled = false;
-                pushButton.disabled = false;
-                pushButton.textContent = 'Enable Push Messages';
-                return;
-              }
-
-              var subscriptionId = pushSubscription.subscriptionId;
-              // TODO: Make a request to your server to remove
-              // the subscriptionId from your data store so you
-              // don't attempt to send them push messages anymore
-
-              // We have a subscription, so call unsubscribe on it
-              pushSubscription.unsubscribe().then(function(successful) {
-                console.log('Unsubscribed');
-                addNotification('Unsubscribed');
-                pushButton.disabled = false;
-                pushButton.textContent = 'Enable Push Messages';
-                window.isPushEnabled = false;
-              }).catch(function(e) {
-                // We failed to unsubscribe, this can lead to
-                // an unusual state, so may be best to remove
-                // the users data from your data store and
-                // inform the user that you have done so
-
-                console.log('Unsubscription error: ', e);
-                addNotification('Unsubscription error: ' + e);
-                pushButton.disabled = false;
-                pushButton.textContent = 'Enable Push Messages';
-              });
-            }).catch(function(e) {
-              console.error('Error thrown while unsubscribing from push messaging.', e);
-              addNotification('Error thrown while unsubscribing from push messaging.', e);
-            });
-        });
-      }
-
-      function mainMt() {
-        addNotification('Firebase initialization start');
-        // Your web app's Firebase configuration
-        var firebaseConfig = {
-          apiKey: "AIzaSyCh5FkwP1RpqV3qTUa8nXX1j_7zVPSi4a0",
-          authDomain: "mtint-ea651.firebaseapp.com",
-          databaseURL: "https://mtint-ea651.firebaseio.com",
-          projectId: "mtint-ea651",
-          storageBucket: "",
-          messagingSenderId: "1077143836185",
-          appId: "1:1077143836185:web:2636fb7a52d44378"
-        };
-        try {
-          // Initialize Firebase
-          firebase.initializeApp(firebaseConfig);
-          addNotification('Firebase initialized');
-        } catch (err) {
-          addNotification('Firebase initialize error ', err);
-          console.log('Firebase initialize error ', err);
-        }
-
-        // (function(p,u,s,h){
-        //     p._pcq=p._pcq||[];
-        //     p._pcq.push(['_currentTime',Date.now()]);
-        //     s=u.createElement('script');
-        //     s.type='text/javascript';
-        //     s.async=true;
-        //     s.src='https://cdn.pushcrew.com/js/ed0f4745464879c8263c4b777d33976b.js';
-        //     h=u.getElementsByTagName('script')[0];
-        //     h.parentNode.insertBefore(s,h);
-        // })(window,document);
-
-        addNotification('Event listener installed');
-        self.addEventListener('install', function(event) {
-          console.log('V1 installing…');
-        });
-
-        addNotification('Event listener activated');
-        self.addEventListener('activate', event => {
-          console.log('V1 now ready to handle fetches!');
-        });
-
-        addNotification('Event listener push enabled');
-        self.addEventListener('push', function(event) {
-          console.log('Received a push message', event);
-          addNotification('Received a push message ' + event);
-
-          var title = 'Yay a message.';
-          var body = 'We have received a push message.';
-          var icon = '/images/icon-192x192.png';
-          var tag = 'simple-push-demo-notification-tag';
-
-          event.waitUntil(
-            self.registration.showNotification(title, {
-              body: body,
-              icon: icon,
-              tag: tag
-            })
-          );
-        });
-
-        addNotification('Setting button listeners');
-        var pushButton = document.querySelector('.js-push-button');
-        pushButton.addEventListener('click', function() {
-          if (isPushEnabled) {
-            unsubscribe();
-          } else {
-            subscribe({userVisibleOnly: true});
-          }
-        });
-
-        addNotification('Check service workers');
-        // Check that service workers are supported, if so, progressively
-        // enhance and add push messaging support, otherwise continue without it.
-        if ('serviceWorker' in navigator) {
-          console.log('Service worker in navigator');
-          addNotification('Service worker registration...');
-          navigator.serviceWorker.register('/service-worker.js').then(initialiseState());
-          addNotification('Service worker registered');
-        } else {
-          console.warn('Service workers aren\'t supported in this browser.');
-          addNotification('Service workers aren\'t supported in this browser.');
-        }
-
-        var deeplink = document.getElementById('deeplink');
-        deeplink.onclick = function() {
-          try {
-            // document.location = 'googlechrome://navigate?url=www.example.com/';
-            addNotification('redirect...');
-            // window.location.replace('googlechrome://navigate?url=www.example.com/');
-            // location.assign('googlechrome://navigate?url=www.example.com/');
-            // window.open('googlechrome://navigate?url=www.example.com/');
-            window.open('http://www.example.com/');
-            // window.open('googlechrome://navigate?url=www.example.com/','_self');
-            // location.href = 'googlechrome://navigate?url=www.example.com/';
-          }
-          catch(err) {
-            addNotification('error... ', err.message);
-          //   document.getElementById("error").innerHTML = err.message;
-          }
-          finally {
-            addNotification('...finally');
-          }
-        };
-      }
-
-      function showNotification() {
-        addNotification('showNotification()');
-        Notification.requestPermission(function(result) {
-          if (result === 'granted') {
-            addNotification('showNotification() granted');
-            navigator.serviceWorker.ready.then(function(registration) {
-              registration.showNotification('Vibration Sample', {
-                body: 'Buzz! Buzz!',
-                icon: '../images/touch/chrome-touch-icon-192x192.png',
-                vibrate: [200, 100, 100, 100, 200, 100, 100, 100],
-                tag: 'vibration-sample'
-              });
-            });
-          } else {
-            addNotification('showNotification() not granted');
-          }
-        });
-      }
-
-      window.addEventListener('DOMContentLoaded', function() {  mainMt() });
-    </script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href='main.css' rel='stylesheet' type='text/css'>
-  </head>
-  <body style="font-size: 1em;">
-    <div style="width: 80%; margin-left: 10%; margin-right: 10%;">
-      <h1>Service Workers</h1>
-      <p>To enable notifications, push the button</p>
-      <button class="js-push-button" disabled>
-        Enable Push Messages
-      </button>
-      <button onclick="addNotification('Button clicked')">
-        Add test notification
-      </button>
-      <button onclick="showNotification()">
-        Show test notification
-      </button>
-      </button>
-      <button onclick="document.location = 'googlechrome://navigate?url=www.example.com/';">
-        Open link in Chrome
-      </button>
-      <a href="googlechrome://navigate?url=www.example.com/">
-        Open link in Chrome (href, googlechrome)
-      </a>
-      <a href="chrome://navigate?url=www.example.com/">
-        Open link in Chrome (href, chrome)
-      </a>
-      <a href="#" id='deeplink'>
-        Open link in Chrome (href, #deeplink)
-      </a>
-      <a href="http://google.com">
-        Google
-      </a>
-      <p>
-        <h5>Notifications:</h5>
-        <ul id='notifications' style="font-size: .8em;"></ul>
-        <div id='error'></div>
-      </p>
+  <section>
+    <h2>Skills</h2>
+    <div class="skills">
+      <div>
+        <h3>Languages</h3>
+        <ul class="tags"><li>Ruby</li><li>Go</li><li>Python</li><li>JavaScript</li><li>SQL</li></ul>
+      </div>
+      <div>
+        <h3>Frameworks</h3>
+        <ul class="tags"><li>Ruby on Rails</li><li>Rack</li><li>FastAPI</li><li>SQLAlchemy</li></ul>
+      </div>
+      <div>
+        <h3>Data</h3>
+        <ul class="tags"><li>PostgreSQL</li><li>Redis</li><li>Amazon S3</li></ul>
+      </div>
+      <div>
+        <h3>Infrastructure</h3>
+        <ul class="tags"><li>Docker</li><li>Ansible</li><li>GitHub Actions</li><li>Linux</li></ul>
+      </div>
     </div>
-  </body>
+  </section>
+
+  <section>
+    <h2>Projects</h2>
+
+    <div class="project">
+      <h3><a href="https://github.com/sadfuzzy/redcase">Redcase</a></h3>
+      <p>Redmine plugin for managing test cases, test suites and execution results.</p>
+      <ul class="tags"><li>Ruby</li><li>Rails</li><li>JavaScript</li><li>Redmine</li></ul>
+    </div>
+
+    <div class="project">
+      <h3><a href="https://github.com/sadfuzzy/chasocker">Chasocker</a></h3>
+      <p>Real-time chat application.</p>
+      <ul class="tags"><li>Ruby</li><li>WebSockets</li></ul>
+    </div>
+
+    <div class="project">
+      <h3><a href="https://github.com/sadfuzzy/image_complexity">Image Complexity</a></h3>
+      <p>Estimates the visual complexity of images.</p>
+      <ul class="tags"><li>Python</li></ul>
+    </div>
+
+    <div class="project">
+      <h3><a href="https://github.com/sadfuzzy/s3_storage">S3 Storage</a></h3>
+      <p>File storage service backed by Amazon S3.</p>
+      <ul class="tags"><li>Ruby</li><li>Amazon S3</li></ul>
+    </div>
+
+    <div class="project">
+      <h3><a href="https://github.com/sadfuzzy/lita-xmpp">lita-xmpp</a></h3>
+      <p>XMPP adapter for the Lita chat bot.</p>
+      <ul class="tags"><li>Ruby</li><li>XMPP</li></ul>
+    </div>
+
+    <div class="project">
+      <h3><a href="https://github.com/sadfuzzy/allum">Allum</a></h3>
+      <p>Rack app for running a local wiki.</p>
+      <ul class="tags"><li>Ruby</li><li>Rack</li></ul>
+    </div>
+
+    <div class="project">
+      <h3><a href="https://github.com/sadfuzzy/hexlet-go">hexlet-go</a></h3>
+      <p>Go exercises and practice projects.</p>
+      <ul class="tags"><li>Go</li></ul>
+    </div>
+  </section>
+
+  <footer>© Denis Savitskiy</footer>
+</main>
+</body>
 </html>
