@@ -53,30 +53,110 @@
     <div class="skills">
       <div>
         <h3>Languages</h3>
-        <ul class="tags"><li>Ruby</li><li>Go</li><li>Python</li><li>JavaScript</li><li>SQL</li></ul>
+        <ul class="tags"><li>Ruby</li><li>Go</li><li>Python</li><li>JavaScript</li><li>TypeScript</li><li>PHP</li><li>SQL</li></ul>
       </div>
       <div>
         <h3>Frameworks</h3>
-        <ul class="tags"><li>Ruby on Rails</li><li>Rack</li><li>FastAPI</li><li>SQLAlchemy</li></ul>
+        <ul class="tags"><li>Ruby on Rails</li><li>Hotwire</li><li>Rack</li><li>FastAPI</li><li>WordPress</li></ul>
       </div>
       <div>
         <h3>Data</h3>
-        <ul class="tags"><li>PostgreSQL</li><li>Redis</li><li>Amazon S3</li></ul>
+        <ul class="tags"><li>PostgreSQL</li><li>MySQL</li><li>Redis</li><li>MongoDB</li><li>Amazon S3</li></ul>
       </div>
       <div>
         <h3>Infrastructure</h3>
-        <ul class="tags"><li>Docker</li><li>Ansible</li><li>GitHub Actions</li><li>Linux</li></ul>
+        <ul class="tags"><li>Docker</li><li>Ansible</li><li>Capistrano</li><li>GitHub Actions</li><li>Linux</li><li>Sentry</li><li>New Relic</li></ul>
       </div>
     </div>
   </section>
 
   <section>
-    <h2>Projects</h2>
+    <h2>Products I built</h2>
+
+    <div class="project">
+      <h3>Goody</h3>
+      <p>Charity and donation platform for non-profits: embeddable payment widget, partner transactions, several payment-provider integrations, social login and push notifications. Main developer from 2015 to 2023, more than 1,500 commits.</p>
+      <ul class="tags"><li>Ruby on Rails</li><li>PostgreSQL</li><li>ActiveAdmin</li><li>Devise</li><li>AWS S3</li><li>FCM</li><li>New Relic</li></ul>
+    </div>
+
+    <div class="project">
+      <h3>Rental Yachts</h3>
+      <p>Boat and yacht rental marketplace: booking and discounts, fleet imports from partner companies, multi-currency pricing and an admin panel. More than 1,000 commits from 2019 to 2021.</p>
+      <ul class="tags"><li>Ruby on Rails</li><li>PostgreSQL</li><li>ActiveAdmin</li><li>CanCanCan</li><li>Knockout.js</li><li>Capistrano</li></ul>
+    </div>
+
+    <div class="project">
+      <h3>Some VPN service</h3>
+      <p>VPN subscription service. Users sign up through a Telegram bot or the web app and get their OpenVPN configs generated and sent to them automatically.</p>
+      <ul class="tags"><li>Rails 7</li><li>Hotwire</li><li>Telegram Bot API</li><li>GoodJob</li><li>PostgreSQL</li><li>Redis</li><li>Ansible</li><li>Sentry</li></ul>
+    </div>
+
+    <div class="project">
+      <h3>Koni Bot</h3>
+      <p>Telegram loyalty bot for a venue chain: bonus points from receipts, quests and QR-code rewards, plus a web admin.</p>
+      <ul class="tags"><li>Rails 7</li><li>Hotwire</li><li>Telegram Bot API</li><li>GoodJob</li><li>PostgreSQL</li><li>Redis</li></ul>
+    </div>
+
+    <div class="project">
+      <h3>Manager Association Site</h3>
+      <p>WordPress site for a professional association, with a custom core plugin (custom post types, activity log, hardened login) and a Dockerized dev and production setup.</p>
+      <ul class="tags"><li>WordPress</li><li>PHP</li><li>MySQL</li><li>Docker</li></ul>
+    </div>
+
+    <div class="project">
+      <h3>Home infrastructure</h3>
+      <p>Ansible repo that manages my home network: routers with split tunneling and VPN failover, proxies, a media/torrent box and remote access over Tailscale.</p>
+      <ul class="tags"><li>Ansible</li><li>OpenWrt</li><li>WireGuard</li><li>Tailscale</li><li>Linux</li></ul>
+    </div>
+
+    <div class="project">
+      <h3>Trading tools</h3>
+      <p>Telegram bot for crypto technical analysis (EMA, MACD, volume signals) on Bybit, and a P&amp;L and deposit monitor for Binance and Bybit accounts.</p>
+      <ul class="tags"><li>Python</li><li>ccxt</li><li>pandas</li><li>Ruby</li><li>Telegram Bot API</li></ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Open source</h2>
+
+    <div class="project">
+      <h3><a href="https://github.com/louislam/uptime-kuma">Uptime Kuma</a></h3>
+      <p>Self-hosted monitoring tool: fixes, Ukrainian translation and a REST API for monitor CRUD.</p>
+      <ul class="tags"><li>Node.js</li><li>Vue</li></ul>
+    </div>
+
+    <div class="project">
+      <h3><a href="https://github.com/zenmoney/ZenPlugins">ZenPlugins</a></h3>
+      <p>Bank sync plugins for Zenmoney: fixes to the Etherscan plugin's transaction handling.</p>
+      <ul class="tags"><li>TypeScript</li></ul>
+    </div>
+
+    <div class="project">
+      <h3><a href="https://github.com/sadfuzzy/tinkoff">tinkoff</a></h3>
+      <p>Ruby wrapper for the Tinkoff Payments API: dropped the ActiveSupport dependency and fixed frozen-string issues.</p>
+      <ul class="tags"><li>Ruby</li></ul>
+    </div>
 
     <div class="project">
       <h3><a href="https://github.com/sadfuzzy/redcase">Redcase</a></h3>
       <p>Redmine plugin for managing test cases, test suites and execution results.</p>
       <ul class="tags"><li>Ruby</li><li>Rails</li><li>JavaScript</li><li>Redmine</li></ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Side projects</h2>
+
+    <div class="project">
+      <h3><a href="https://github.com/sadfuzzy/s3_storage">Simple Drive</a></h3>
+      <p>Dockerized Rails API for binary object storage with four pluggable backends: local disk, PostgreSQL, FTP and S3. The S3 client is plain net/http with hand-written SigV4 signing, no AWS SDK.</p>
+      <ul class="tags"><li>Rails</li><li>PostgreSQL</li><li>MinIO</li><li>Docker</li></ul>
+    </div>
+
+    <div class="project">
+      <h3><a href="https://github.com/sadfuzzy/getcourse-video-downloader">getcourse-video-downloader</a></h3>
+      <p>Downloads GetCourse video lessons without re-encoding. Rewritten in Go, with resumable segment downloads.</p>
+      <ul class="tags"><li>Go</li><li>Bash</li></ul>
     </div>
 
     <div class="project">
@@ -92,12 +172,6 @@
     </div>
 
     <div class="project">
-      <h3><a href="https://github.com/sadfuzzy/s3_storage">S3 Storage</a></h3>
-      <p>File storage service backed by Amazon S3.</p>
-      <ul class="tags"><li>Ruby</li><li>Amazon S3</li></ul>
-    </div>
-
-    <div class="project">
       <h3><a href="https://github.com/sadfuzzy/lita-xmpp">lita-xmpp</a></h3>
       <p>XMPP adapter for the Lita chat bot.</p>
       <ul class="tags"><li>Ruby</li><li>XMPP</li></ul>
@@ -107,12 +181,6 @@
       <h3><a href="https://github.com/sadfuzzy/allum">Allum</a></h3>
       <p>Rack app for running a local wiki.</p>
       <ul class="tags"><li>Ruby</li><li>Rack</li></ul>
-    </div>
-
-    <div class="project">
-      <h3><a href="https://github.com/sadfuzzy/hexlet-go">hexlet-go</a></h3>
-      <p>Go exercises and practice projects.</p>
-      <ul class="tags"><li>Go</li></ul>
     </div>
   </section>
 
